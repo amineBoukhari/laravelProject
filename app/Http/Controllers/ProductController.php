@@ -97,5 +97,19 @@ class ProductController extends Controller
         }
     }
 
-    // Other methods remain unchanged...
+    /**
+     * Display the specified product.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+            return view('products.show', compact('product'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('products.index')->with('error', 'Product not found.');
+        }
+    }
 }
