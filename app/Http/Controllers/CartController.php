@@ -11,7 +11,7 @@ class CartController extends Controller
     public function index()
     {
         $userId = 1; // Assuming you have authentication
-        $cartItems = Cart::where('user_id', $userId)->get();
+        $cartItems = Cart::all();
         $total = 0;
 
         foreach ($cartItems as $item) {
@@ -28,7 +28,6 @@ class CartController extends Controller
         $userId = 1; // Assuming you have authentication
         $productId = $request->input('product_id');
         $cartItem = Cart::create([
-            'user_id' => $userId,
             'product_id' => $productId,
             'quantity' => 1, // Assuming a default quantity of 1
         ]);
