@@ -9,5 +9,8 @@
 		@endforeach
 	</ul>
 	<h3>Total: ${{ $total }}</h3>
+	<br/>
+	<a href="{{ route('checkout.index') }}" class="btn btn-primary">Proceed to Checkout</a>
+
 </div>
 @endsection

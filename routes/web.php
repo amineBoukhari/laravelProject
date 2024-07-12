@@ -34,6 +34,8 @@ Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('pr
 Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
 Route::get('/cart', 'App\Http\Controllers\CartController@index')->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-
+Route::get('/checkout', function () {
+    return view('checkout.index');
+})->name('checkout.index');
 
 
