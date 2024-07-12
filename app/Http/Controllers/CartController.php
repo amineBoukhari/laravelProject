@@ -34,4 +34,26 @@ class CartController extends Controller
 
         return redirect()->route('cart.index')->with('success', 'Product added to cart successfully.');
     }
+    public function updateQuantity(Request $request, $id)
+    {
+        $quantity = $request->input('quantity');
+        $cartItem = Cart::find($id);
+        if ($cartItem) {
+            $cartItem->update(['quantity' => $quantity]);
+            return redirect()->route('cart.index')->with('success', 'Cart updated successfully.');
+        } else {
+            return redirect()->route('cart.index')->with('error', 'Cart item not found.');
+        }
+    }
+
+    public function removeItem($id)
+    {
+        $result = Cart::remove($id);
+
+        if ($result) {
+            return back()->with('success', 'Item removed successfully.');
+        } else {
+            return back()->with('error', 'Item not found.');
+        }
+    }
 }
