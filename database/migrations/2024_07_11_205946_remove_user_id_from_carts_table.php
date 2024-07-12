@@ -27,7 +27,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('carts', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->dropForeign(['user_id']);  // This uses the column name to reference the foreign key
         });
+        Schema::dropIfExists('carts');
     }
 };

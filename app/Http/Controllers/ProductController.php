@@ -80,14 +80,14 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'description' => 'required',
-            'price' => 'required|numeric',
-            'category_id' => 'required|exists:categories,id' // Validate category ID
+            'price' => 'required|numeric|min:0', // Ensure non-negative prices
+            'category_id' => 'required|exists:categories,id' // Validate that the category ID exists in the 'categories' table
         ]);
-
+    
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
+    
         try {
             $product = Product::findOrFail($id);
             $product->update($request->all());
@@ -108,6 +108,37 @@ class ProductController extends Controller
         try {
             $product = Product::findOrFail($id);
             return view('products.show', compact('product'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('products.index')->with('error', 'Product not found.');
+        }
+    }
+
+    /**
+     * Show the form for editing a specified product.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $product = Product::findOrFail($id);
+        $categories = Category::all(); // Assuming Category model exists and is correct
+        return view('products.edit', compact('product', 'categories'));
+    }
+    
+    /**
+     * Remove the specified product from the database.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+            $product->delete(); // Delete the product
+    
+            return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
         } catch (ModelNotFoundException $e) {
             return redirect()->route('products.index')->with('error', 'Product not found.');
         }
