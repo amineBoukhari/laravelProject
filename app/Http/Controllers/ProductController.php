@@ -33,6 +33,22 @@ class ProductController extends Controller
         return view('products.index', compact('products', 'categories'));
     }
 
+    public function admin(Request $request)
+    {
+        $perPage = $request->get('per_page', 10);
+        
+        // If a category is specified, filter by it
+        $categoryName = $request->get('category');
+        $products = $categoryName ? 
+                    Product::whereHas('category', function($query) use ($categoryName) {
+                        $query->where('name', $categoryName);
+                    })->paginate($perPage) :
+                    Product::paginate($perPage);
+
+        $categories = Category::all(); // Pass categories to view for filtering options
+        return view('dashboard', compact('products', 'categories'));
+    }
+
     /**
      * Show the form for creating a new product.
      * Include categories for selection.
@@ -113,6 +129,7 @@ class ProductController extends Controller
         }
     }
 
+    
     /**
      * Show the form for editing a specified product.
      *
