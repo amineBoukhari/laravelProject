@@ -54,3 +54,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
+
+Route::get('/contact', function () {
+    return view('contact');
+});
