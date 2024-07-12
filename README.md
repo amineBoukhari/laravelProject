@@ -2,6 +2,7 @@
 title: Laravel Routes Documentation
 ---
 
+## Made by: Amine Boukhari & Mohamad Charara
 
 
 # First use these commands to generate random data : 
